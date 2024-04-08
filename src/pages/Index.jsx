@@ -1,18 +1,28 @@
 // Complete the Index page component here
 // Use chakra-ui
-import { Heading, Box, UnorderedList, ListItem } from "@chakra-ui/react";
+import { useState } from "react";
+import { Heading, Box, UnorderedList, ListItem, Input, Button, HStack } from "@chakra-ui/react";
 
 const Index = () => {
-  const todos = [
-    { id: 1, text: "Buy groceries" },
-    { id: 2, text: "Do laundry" },
-    { id: 3, text: "Clean bathroom" },
-    { id: 4, text: "Walk the dog" },
-  ];
+  const [todos, setTodos] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleAddTodo = () => {
+    if (inputValue.trim() !== "") {
+      setTodos([...todos, { id: Date.now(), text: inputValue }]);
+      setInputValue("");
+    }
+  };
 
   return (
     <Box maxW="400px" mx="auto" mt={8}>
       <Heading mb={4}>My Todos</Heading>
+      <HStack mb={4}>
+        <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Enter a new todo" />
+        <Button onClick={handleAddTodo} colorScheme="blue">
+          Add
+        </Button>
+      </HStack>
       <UnorderedList>
         {todos.map((todo) => (
           <ListItem key={todo.id}>{todo.text}</ListItem>
